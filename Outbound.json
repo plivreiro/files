@@ -1,0 +1,772 @@
+{
+    "openapi": "3.0.1",
+    "info": {
+        "title": "Outbound",
+        "description": "",
+        "version": "1.0"
+    },
+    "servers": [{
+        "url": "https://api-dev.ibase.si.siemens.cloud/outbound"
+    }],
+    "paths": {
+        "/api/v1/sites": {
+            "get": {
+                "summary": "Site_GetByIds",
+                "description": "get sites by id(s)",
+                "operationId": "Site_GetByIds",
+                "parameters": [{
+                    "name": "$filter",
+                    "in": "query",
+                    "description": "Site Id(s) with EQUAL/OR e.g. /api/v1/sites?$filter=id eq 'AAAAIL0VD33RZADXBXNVPWE2U445' or id eq 'AAAAIL0VD33RZADXBXNVPWE2U444'",
+                    "required": true,
+                    "schema": {
+                        "type": "string"
+                    }
+                }, {
+                    "name": "$select",
+                    "in": "query",
+                    "description": "id,Addresses,Installations,SiteName",
+                    "schema": {
+                        "type": "string"
+                    }
+                }, {
+                    "name": "$expand",
+                    "in": "query",
+                    "description": "Installations($select=InstallationNumber,Status,SoldToIFANumber),Addresses($select=Street,City)",
+                    "schema": {
+                        "type": "string"
+                    }
+                }],
+                "responses": {
+                    "200": {
+                        "description": "OK",
+                        "content": {
+                            "application/json": {
+                                "schema": {
+                                    "$ref": "#/components/schemas/ApiV1SitesGet200ApplicationJsonResponse"
+                                }
+                            }
+                        }
+                    }
+                }
+            }
+        },
+        "/api/v1/countries/{countryCode}/siteheaders": {
+            "get": {
+                "summary": "Site_SearchHeaders",
+                "description": "Site_SearchHeaders",
+                "operationId": "Site_SearchHeaders",
+                "parameters": [{
+                    "name": "countryCode",
+                    "in": "path",
+                    "description": "target country",
+                    "required": true,
+                    "schema": {
+                        "type": "string"
+                    }
+                }, {
+                    "name": "$select",
+                    "in": "query",
+                    "schema": {
+                        "type": "string"
+                    }
+                }, {
+                    "name": "$filter",
+                    "in": "query",
+                    "schema": {
+                        "type": "string"
+                    }
+                }, {
+                    "name": "$top",
+                    "in": "query",
+                    "schema": {
+                        "type": "integer"
+                    }
+                }, {
+                    "name": "$orderby",
+                    "in": "query",
+                    "schema": {
+                        "type": "string"
+                    }
+                }, {
+                    "name": "$count",
+                    "in": "query",
+                    "schema": {
+                        "type": "boolean"
+                    }
+                }],
+                "responses": {
+                    "200": {
+                        "description": "OK",
+                        "content": {
+                            "application/json": {
+                                "schema": {
+                                    "$ref": "#/components/schemas/ApiV1Countries-countryCode-SiteheadersGet200ApplicationJsonResponse"
+                                }
+                            }
+                        }
+                    }
+                }
+            }
+        },
+        "/api/v1/countries/{countryCode}/sites": {
+            "get": {
+                "summary": "Site_Search",
+                "description": "Site_Search",
+                "operationId": "Site_Search",
+                "parameters": [{
+                    "name": "countryCode",
+                    "in": "path",
+                    "description": "target country",
+                    "required": true,
+                    "schema": {
+                        "type": "string"
+                    }
+                }, {
+                    "name": "$select",
+                    "in": "query",
+                    "description": "id,Addresses,Installations,SiteName",
+                    "schema": {
+                        "type": "string"
+                    }
+                }, {
+                    "name": "$expand",
+                    "in": "query",
+                    "description": "Installations($select=InstallationNumber,Status,SoldToIFANumber),Addresses($select=Street,City)",
+                    "schema": {
+                        "type": "string"
+                    }
+                }, {
+                    "name": "$filter",
+                    "in": "query",
+                    "schema": {
+                        "type": "string"
+                    }
+                }, {
+                    "name": "$orderby",
+                    "in": "query",
+                    "schema": {
+                        "type": "string"
+                    }
+                }, {
+                    "name": "$count",
+                    "in": "query",
+                    "schema": {
+                        "type": "boolean"
+                    }
+                }, {
+                    "name": "$top",
+                    "in": "query",
+                    "schema": {
+                        "type": "integer"
+                    }
+                }],
+                "responses": {
+                    "200": {
+                        "description": "OK",
+                        "content": {
+                            "application/json": {
+                                "schema": {
+                                    "$ref": "#/components/schemas/ApiV1Countries-countryCode-SitesGet200ApplicationJsonResponse"
+                                }
+                            }
+                        }
+                    }
+                }
+            }
+        },
+        "/api/v1/equipments": {
+            "get": {
+                "summary": "Equipment_Search",
+                "description": "search equipments",
+                "operationId": "Equipment_Search",
+                "parameters": [{
+                    "name": "$filter",
+                    "in": "query",
+                    "description": "OData filter to search equipments. Filter has to contain InstallationNumber and/or CountryCode",
+                    "required": true,
+                    "schema": {
+                        "type": "string"
+                    }
+                }, {
+                    "name": "$select",
+                    "in": "query",
+                    "schema": {
+                        "type": "string"
+                    }
+                }, {
+                    "name": "$apply",
+                    "in": "query",
+                    "schema": {
+                        "type": "string"
+                    }
+                }, {
+                    "name": "$count",
+                    "in": "query",
+                    "description": "request to return hits count",
+                    "schema": {
+                        "type": "boolean"
+                    }
+                }, {
+                    "name": "$top",
+                    "in": "query",
+                    "description": "limit response length (equipment count)",
+                    "schema": {
+                        "type": "integer"
+                    }
+                }],
+                "responses": {
+                    "200": {
+                        "description": "OK",
+                        "content": {
+                            "application/json": {
+                                "schema": {
+                                    "$ref": "#/components/schemas/ApiV1EquipmentsGet200ApplicationJsonResponse"
+                                }
+                            }
+                        }
+                    }
+                }
+            }
+        },
+        "/api/version": {
+            "get": {
+                "summary": "Version",
+                "description": "Installtion Version",
+                "operationId": "version",
+                "responses": {
+                    "200": {
+                        "description": "OK",
+                        "content": {
+                            "application/json": {
+                                "schema": {
+                                    "$ref": "#/components/schemas/ApiV1Version20ApplicationJsonResponse"
+                                }
+                            }
+                        }
+                    }
+                }
+            }
+        }
+    },
+    "components": {
+        "schemas": {
+            "Error": {
+                "type": "object",
+                "properties": {
+                    "error": {
+                        "type": "object",
+                        "properties": {
+                            "code": {
+                                "type": "string"
+                            },
+                            "message": {
+                                "type": "string"
+                            }
+                        }
+                    }
+                }
+            },
+            "Address": {
+                "type": "object",
+                "properties": {
+                    "Country": {
+                        "type": "string"
+                    },
+                    "Street": {
+                        "type": "string"
+                    },
+                    "Latitude": {
+                        "type": "string"
+                    },
+                    "Longitude": {
+                        "type": "string"
+                    },
+                    "City": {
+                        "type": "string"
+                    },
+                    "PoCode": {
+                        "type": "string"
+                    }
+                }
+            },
+            "ArrayOfAddress": {
+                "type": "array",
+                "items": {
+                    "$ref": "#/components/schemas/Address"
+                }
+            },
+            "Installation": {
+                "type": "object",
+                "properties": {
+                    "InstallationStartupDate": {
+                        "type": "string"
+                    },
+                    "BuildingDiscipline": {
+                        "type": "string"
+                    },
+                    "ServicePortalAvailable": {
+                        "type": "string"
+                    },
+                    "CreatedOn": {
+                        "type": "string"
+                    },
+                    "WarrantyStart": {
+                        "type": "string"
+                    },
+                    "ChangedOn": {
+                        "type": "string"
+                    },
+                    "SPMConnection": {
+                        "type": "string"
+                    },
+                    "WarrantyEnd": {
+                        "type": "string"
+                    },
+                    "CountryCode": {
+                        "type": "string"
+                    },
+                    "SAPEQNumber": {
+                        "type": "string"
+                    },
+                    "SystemType": {
+                        "type": "string"
+                    },
+                    "DescriptionForCustomer": {
+                        "type": "string"
+                    },
+                    "InstallationNumber": {
+                        "type": "string"
+                    },
+                    "PayerIFANumber": {
+                        "type": "string"
+                    },
+                    "PayerSAPNumber": {
+                        "type": "string"
+                    },
+                    "SoldToIFANumber": {
+                        "type": "string"
+                    },
+                    "SoldToSAPNumber": {
+                        "type": "string"
+                    },
+                    "InstallationName": {
+                        "type": "string"
+                    },
+                    "DescriptionForInternal": {
+                        "type": "string"
+                    },
+                    "RemoteAccess": {
+                        "type": "string"
+                    },
+                    "Status": {
+                        "type": "string"
+                    },
+                    "Source": {
+                        "type": "string"
+                    }
+                }
+            },
+            "ArrayOfInstallation": {
+                "type": "array",
+                "items": {
+                    "$ref": "#/components/schemas/Installation"
+                }
+            },
+            "SalesOffice": {
+                "type": "object",
+                "properties": {
+                    "Area": {
+                        "type": "string"
+                    },
+                    "Zone": {
+                        "type": "string"
+                    },
+                    "Branch": {
+                        "type": "string"
+                    },
+                    "TerritoryNumber": {
+                        "type": "string"
+                    },
+                    "Region": {
+                        "type": "string"
+                    },
+                    "Name": {
+                        "type": "string"
+                    }
+                }
+            },
+            "ArrayOfSalesOffice": {
+                "type": "array",
+                "items": {
+                    "$ref": "#/components/schemas/SalesOffice"
+                }
+            },
+            "SiteSource": {
+                "type": "object",
+                "properties": {
+                    "Type": {
+                        "type": "string"
+                    },
+                    "Zone": {
+                        "type": "string"
+                    },
+                    "Reference": {
+                        "type": "string"
+                    },
+                    "SourceSystem": {
+                        "type": "string"
+                    }
+                }
+            },
+            "ArrayOfSiteSource": {
+                "type": "array",
+                "items": {
+                    "$ref": "#/components/schemas/SiteSource"
+                }
+            },
+            "Site": {
+                "type": "object",
+                "properties": {
+                    "id": {
+                        "type": "string"
+                    },
+                    "SiteDescription": {
+                        "type": "string"
+                    },
+                    "Type": {
+                        "type": "string"
+                    },
+                    "CreatedOn": {
+                        "type": "string"
+                    },
+                    "ChangedOn": {
+                        "type": "string"
+                    },
+                    "CountryCode": {
+                        "type": "string"
+                    },
+                    "SiteName": {
+                        "type": "string"
+                    },
+                    "FacilityType": {
+                        "type": "string"
+                    },
+                    "Status": {
+                        "type": "string"
+                    },
+                    "Latitude": {
+                        "type": "number"
+                    },
+                    "Longitude": {
+                        "type": "number"
+                    },
+                    "TimeZoneName": {
+                        "type": "string"
+                    },
+                    "TimeZoneOffset": {
+                        "type": "string"
+                    },
+                    "Area": {
+                        "type": "string"
+                    },
+                    "Branch": {
+                        "type": "string"
+                    },
+                    "Region": {
+                        "type": "string"
+                    },
+                    "Zone": {
+                        "type": "string"
+                    },
+                    "Addresses": {
+                        "$ref": "#/components/schemas/ArrayOfAddress"
+                    },
+                    "Installations": {
+                        "$ref": "#/components/schemas/ArrayOfInstallation"
+                    },
+                    "SalesOffices": {
+                        "$ref": "#/components/schemas/ArrayOfSalesOffice"
+                    },
+                    "Sources": {
+                        "$ref": "#/components/schemas/ArrayOfSiteSource"
+                    }
+                }
+            },
+            "SiteHeader": {
+                "type": "object",
+                "properties": {
+                    "id": {
+                        "type": "string"
+                    },
+                    "SiteName": {
+                        "type": "string"
+                    },
+                    "City": {
+                        "type": "string"
+                    },
+                    "PoCode": {
+                        "type": "string"
+                    },
+                    "Street": {
+                        "type": "string"
+                    }
+                }
+            },
+            "Equipment": {
+                "type": "object",
+                "properties": {
+                    "InstallationNumber": {
+                        "type": "string"
+                    },
+                    "SourceEntity": {
+                        "type": "string"
+                    },
+                    "ParentEquipmentId": {
+                        "type": "string"
+                    },
+                    "GenericItem": {
+                        "type": "string"
+                    },
+                    "EquipmentSubClass": {
+                        "type": "string"
+                    },
+                    "MaterialNumberLocal": {
+                        "type": "string"
+                    },
+                    "CountryCode": {
+                        "type": "string"
+                    },
+                    "SAPClient": {
+                        "type": "string"
+                    },
+                    "SAPSystemId": {
+                        "type": "string"
+                    },
+                    "Source": {
+                        "type": "string"
+                    },
+                    "EquipmentId": {
+                        "type": "string"
+                    },
+                    "ConfigurationId": {
+                        "type": "string"
+                    },
+                    "ConfigurationInstanceId": {
+                        "type": "string"
+                    },
+                    "EquipmentName": {
+                        "type": "string"
+                    },
+                    "InstanceId": {
+                        "type": "string"
+                    },
+                    "ClassId": {
+                        "type": "string"
+                    },
+                    "EquipmentDescription": {
+                        "type": "string"
+                    },
+                    "EquipmentQuantity": {
+                        "type": "integer"
+                    },
+                    "ProductId": {
+                        "type": "string"
+                    },
+                    "ProductSerialNumber": {
+                        "type": "string"
+                    },
+                    "BuildingDiscipline": {
+                        "type": "string"
+                    },
+                    "Manufacturer": {
+                        "type": "string"
+                    },
+                    "EquipmentWarrantyStart": {
+                        "type": "string",
+                        "example": "2020-01-20 23:59:59.123"
+                    },
+                    "EquipmentWarrantyEnd": {
+                        "type": "string",
+                        "example": "2020-01-20 23:59:59.123"
+                    },
+                    "Status": {
+                        "type": "string"
+                    },
+                    "HWVersion": {
+                        "type": "string"
+                    },
+                    "OSName": {
+                        "type": "string"
+                    },
+                    "OSVersion": {
+                        "type": "string"
+                    },
+                    "SWName": {
+                        "type": "string"
+                    },
+                    "SWVersion": {
+                        "type": "string"
+                    },
+                    "FWName": {
+                        "type": "string"
+                    },
+                    "FWVersion": {
+                        "type": "string"
+                    },
+                    "PhysicalConnectivityTypeNorthbound": {
+                        "type": "string"
+                    },
+                    "PhysicalConnectivityTypeSouthbound": {
+                        "type": "string"
+                    },
+                    "LastModified": {
+                        "type": "string"
+                    },
+                    "InitialCreationDate": {
+                        "type": "string"
+                    },
+                    "ProjectNumber": {
+                        "type": "string"
+                    },
+                    "MaterialNumberGlobal": {
+                        "type": "string"
+                    }
+                }
+            },
+            "ArrayOfEquipment": {
+                "type": "array",
+                "items": {
+                    "$ref": "#/components/schemas/Equipment"
+                }
+            },
+            "ArrayOfSite": {
+                "type": "array",
+                "items": {
+                    "$ref": "#/components/schemas/Site"
+                }
+            },
+            "ArrayOfSiteHeader": {
+                "type": "array",
+                "items": {
+                    "$ref": "#/components/schemas/SiteHeader"
+                }
+            },
+            "Sites": {
+                "type": "object",
+                "properties": {
+                    "@odata.count": {
+                        "type": "integer"
+                    },
+                    "@odata.nextLink": {
+                        "type": "string"
+                    },
+                    "value": {
+                        "$ref": "#/components/schemas/ArrayOfSite"
+                    }
+                },
+                "description": "Sites response"
+            },
+            "SiteHeaders": {
+                "type": "object",
+                "properties": {
+                    "@odata.count": {
+                        "type": "integer"
+                    },
+                    "@odata.nextLink": {
+                        "type": "string"
+                    },
+                    "value": {
+                        "$ref": "#/components/schemas/ArrayOfSiteHeader"
+                    }
+                },
+                "description": "SiteHeaders response"
+            },
+            "Equipments": {
+                "type": "object",
+                "properties": {
+                    "@odata.count": {
+                        "type": "integer"
+                    },
+                    "@odata.nextLink": {
+                        "type": "string"
+                    },
+                    "value": {
+                        "$ref": "#/components/schemas/ArrayOfEquipment"
+                    }
+                },
+                "description": "Equipments response"
+            },
+            "ApiV1SitesGet200ApplicationJsonResponse": {
+                "oneOf": [{
+                    "$ref": "#/components/schemas/Sites"
+                }, {
+                    "$ref": "#/components/schemas/Error"
+                }]
+            },
+            "ApiV1Countries-countryCode-SitesGet200ApplicationJsonResponse": {
+                "oneOf": [{
+                    "$ref": "#/components/schemas/Sites"
+                }, {
+                    "$ref": "#/components/schemas/Error"
+                }]
+            },
+            "ApiV1Countries-countryCode-SiteheadersGet200ApplicationJsonResponse": {
+                "oneOf": [{
+                    "$ref": "#/components/schemas/SiteHeaders"
+                }, {
+                    "$ref": "#/components/schemas/Error"
+                }]
+            },
+            "ApiV1EquipmentsGet200ApplicationJsonResponse": {
+                "oneOf": [{
+                    "$ref": "#/components/schemas/Equipments"
+                }, {
+                    "$ref": "#/components/schemas/Error"
+                }]
+            },
+            "StressTestResponse": {
+                "type": "object",
+                "properties": {
+                    "value": {
+                        "type": "object",
+                        "properties": {
+                            "APISeconds": {
+                                "type": "number"
+                            },
+                            "DatabaseSeconds": {
+                                "type": "number"
+                            },
+                            "Charge": {
+                                "type": "number"
+                            }
+                        }
+                    }
+                }
+            },
+            "ApiV1StressTest20ApplicationJsonResponse": {
+                "oneOf": [{
+                    "$ref": "#/components/schemas/StressTestResponse"
+                }, {
+                    "$ref": "#/components/schemas/Error"
+                }]
+            },
+            "ApiV1Version20ApplicationJsonResponse": {
+                "type": "object",
+                "properties": {
+                    "value": {
+                        "type": "object",
+                        "properties": {
+                            "version": {
+                                "type": "number"
+                            },
+                            "time": {
+                                "type": "string"
+                            }
+                        }
+                    }
+                }
+            }
+        }
+    }
+}
